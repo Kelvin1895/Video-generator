@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI 360° Video Generator</title>
+  <style>
+    body { font-family: Arial; max-width: 800px; margin: auto; padding: 20px; }
+    input, textarea, button { width: 100%; margin-top: 10px; padding: 10px; }
+    video { margin-top: 20px; width: 100%; }
+  </style>
+</head>
+<body>
+
+<h2>360° Real Estate Video Generator</h2>
+
+<label>Upload Reference Images:</label>
+<input type="file" id="images" multiple>
+
+<label>Prompt:</label>
+<textarea id="prompt" rows="6">
+Create a photorealistic 360-degree cinematic video of the property.
+</textarea>
+
+<button onclick="generateVideo()">Generate Video</button>
+
+<video id="resultVideo" controls></video>
+
+<script>
+async function generateVideo() {
+
+  const prompt = document.getElementById("prompt").value;
+
+  const response = await fetch("https://api.your-video-ai.com/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_API_KEY"
+    },
+    body: JSON.stringify({
+      prompt: prompt,
+      duration: 10,
+      resolution: "4k"
+    })
+  });
+
+  const data = await response.json();
+  document.getElementById("resultVideo").src = data.video_url;
+}
+</script>
+
+</body>
+</html>
